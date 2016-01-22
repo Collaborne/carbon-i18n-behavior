@@ -1,0 +1,23 @@
+<!doctype html>
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../carbon-i18n-behavior.html">
+
+<script src="i18n/en.js"></script>
+<script src="i18n/de.js"></script>
+
+<dom-module id="simple-i18n">
+
+    <template>
+        [[msg.hello]] [[msg.world]] !
+    </template>
+
+    <script>
+        Polymer({
+            is: 'simple-i18n',
+            behaviors: [
+                Polymer.CarbonI18nBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

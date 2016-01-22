@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+	<head>
+	    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="../../paper-styles/demo-pages.html">
+		<link rel="import" href="../../paper-radio-button/paper-radio-button.html">
+		<link rel="import" href="../../paper-radio-group/paper-radio-group.html">
+		<link rel="import" href="simple-i18n.html">
+		<title>Demo</title>
+	</head>
+
+	<body>
+		<template is="dom-bind">
+			<div class="vertical-section">
+				<simple-i18n locale="[[locale]]"></simple-i18n>
+			</div>
+
+			<paper-radio-group selected="{{locale}}">
+				<paper-radio-button name="en">English</paper-radio-button>
+				<paper-radio-button name="de">German</paper-radio-button>
+			</paper-radio-group>
+		</template>
+
+		<script>
+			var scope = document.querySelector("template[is=dom-bind]");
+			scope.locale = "en";
+		</script>
+	</body>
+</html>

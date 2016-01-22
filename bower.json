@@ -1,0 +1,31 @@
+{
+  "name": "carbon-i18n-behavior",
+  "version": "1.0.0",
+  "authors": [
+    "collaborne"
+  ],
+  "description": "Polymer 1.x behavior to add internationalization support",
+  "main": "carbon-i18n-behavior.html",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "animation",
+    "slot machine"
+  ],
+  "license": "Apache 2",
+  "homepage": "https://github.com/collaborne/carbon-i18n-behavior",
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "paper-radio-button": "PolymerElements/paper-radio-button#^1.0.0",
+    "paper-radio-group": "PolymerElements/paper-radio-group#^1.0.0",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0",
+    "web-component-tester": "*",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  }
+}

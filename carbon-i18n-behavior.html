@@ -1,0 +1,44 @@
+<!doctype html>
+<link rel="import" href="../polymer/polymer.html">
+
+<script>
+
+var Polymer = Polymer || {};
+Polymer.CarbonI18nBehaviorLocales = Polymer.CarbonI18nBehaviorLocales || {
+	/** Adds the translations for a locale */
+	add: function(locale, msg) {
+		this[locale] = msg;
+	}
+};
+
+/**
+ * Adds internationalization support to an element
+ *
+ * @polymerBehavior Polymer.CarbonI18nBehavior
+ * @demo demo/index.html
+ */
+Polymer.CarbonI18nBehavior = {
+	properties: {
+		locale: {
+			type: String,
+			value: 'en',
+			observer: '_onChangedLocale'
+		},
+
+		/**
+		 * Exposes all translations
+		 */
+		msg: Object
+	},
+
+	ready: function() {
+		// Trigger initial load
+		this._onChangedLocale(this.locale);
+	},
+
+	_onChangedLocale: function(locale) {
+		this.msg = Polymer.CarbonI18nBehaviorLocales[locale];
+	}
+};
+
+</script>
