@@ -1,5 +1,5 @@
 #!/bin/sh
-# Version 1.0.2
+# Version 1.0.3
 #
 # Modified to work with Travis CI automated builds
 # Original license follows
