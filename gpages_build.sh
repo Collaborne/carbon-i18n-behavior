@@ -36,11 +36,17 @@ if [ -n "${GH_TOKEN}" ]; then
 else
 	repo_url=git://github.com/${TRAVIS_REPO_SLUG}.git
 fi
+
+
+log() {
+	echo "$1" | sed "s,${GH_TOKEN},*****,g" >&2
+}
+
 workdir=${repo}.$$
 trap "rm -rf ${workdir}" EXIT
 git clone ${repo_url} --no-checkout --single-branch ${workdir}
 if [ $? -ne 0 ]; then
-	echo "Cannot checkout gh-pages branch from ${repo_url}" >&2
+	log "Cannot checkout gh-pages branch from ${repo_url}"
 	exit 1
 fi
 
@@ -73,6 +79,10 @@ create_gh_pages() {
 	git add -A .
 	git commit -am 'Deploy to GitHub Pages'
 	git push --force --quiet -u ${repo_url} gh-pages > /dev/null 2>&1
+	if [ $? -ne 0 ]; then
+		log "Cannot push new gh-pages branch to ${repo_url}"
+		exit 1
+	fi
 }
 
 (cd ${workdir} >/dev/null && create_gh_pages)
