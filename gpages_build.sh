@@ -37,9 +37,16 @@ else
 	repo_url=git://github.com/${TRAVIS_REPO_SLUG}.git
 fi
 
+filter_gh_token() {
+	if [ -n "${GH_TOKEN}" ]; then
+		sed -e "s,${GH_TOKEN},*****,g" >&2
+	else
+		cat
+	fi
+}
 
 log() {
-	echo "$1" | sed "s,${GH_TOKEN},*****,g" >&2
+	echo "$1" | filter_gh_token >&2
 }
 
 workdir=${repo}.$$
