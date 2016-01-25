@@ -8,7 +8,9 @@
 <dom-module id="simple-i18n">
 
     <template>
-        [[msg.hello]] [[msg.world]] !
+        Simple: <b>[[i18n.hello]]</b><br>
+        One parameter: <b>[[i18nFormat(i18n, 'members', 7)]]</b><br>
+        Multiple parameter: <b>[[i18nFormat(i18n, 'intro', 'Joe', 40)]]</b>
     </template>
 
     <script>
