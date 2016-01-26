@@ -39,10 +39,10 @@
 					test('provides localized value', function() {
 						expect(element.i18n.simple).to.be.equals('Hello World');
 					});
-					test('replaces placeholder', function() {
+					test('replaces single placeholder', function() {
 						expect(element.i18nFormat(element.i18n, 'with_placeholder', 5)).to.be.equals('5 members');
 					});
-					test('replaces multiple placeholder', function() {
+					test('replaces multiple placeholders', function() {
 						expect(element.i18nFormat(element.i18n, 'with_multiple_placeholder', 'Joe', 40)).to.be.equals('My name is Joe and I am 40 years old.');
 					});
 				});
