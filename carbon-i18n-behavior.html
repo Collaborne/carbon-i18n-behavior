@@ -50,7 +50,7 @@
 		 */
 		i18nFormat: function(i18n, key) {
 			var args = Array.prototype.slice.call(arguments, 2);
-			return this._format(this.i18n[key], args);
+			return this._format(i18n[key], args);
 		},
 
 		_onChangedLocale: function(locale) {
