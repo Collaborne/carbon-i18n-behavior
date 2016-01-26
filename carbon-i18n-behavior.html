@@ -4,9 +4,17 @@
 <script>
 	var Polymer = Polymer || {};
 	Polymer.CarbonI18nBehaviorLocales = Polymer.CarbonI18nBehaviorLocales || {
-		/** Adds the translations for a locale */
-		add: function(locale, i18n) {
-			this[locale] = i18n;
+		/**
+		 * Adds the translations for a locale
+		 *
+		 * @param {String} localname Name of the element for which the translations
+		 *   are registered, e.g. `x-hello`
+		 * @param {String} locale Name of the locale for the translations, e.g. `de`
+		 * @param {String} translations Translations for the given locale, e.g. { hello: `Hallo` }
+		 */
+		add: function(localName, locale, translations) {
+			this[localName] = this[localName] || {};
+			this[localName][locale] = translations;
 		}
 	};
 
@@ -35,8 +43,10 @@
 
 		/**
 		 * Returns localized text with replaced placeholders
-		 * Polymer data binding requires the paramete `i18n` to trigger a
-		 * a reload whenever the locale changes.
+		 *
+		 * @param {Object} i18n Polymer data binding requires the parameter
+		 *   to trigger a reload whenever the locale changes.
+		 * @param {String} key Key under which the translation is stored
 		 */
 		i18nFormat: function(i18n, key) {
 			var args = Array.prototype.slice.call(arguments, 2);
@@ -44,9 +54,12 @@
 		},
 
 		_onChangedLocale: function(locale) {
-			this.i18n = Polymer.CarbonI18nBehaviorLocales[locale];
+			this.i18n = Polymer.CarbonI18nBehaviorLocales[this.localName][locale];
 		},
 
+		/**
+		 * Simple version of formatf
+		 */
 		_format: function(format, args) {
 			return format.replace(/{(\d+)}/g, function(match, number) {
 				return typeof args[number] != 'undefined' ? args[number] : match;
