@@ -21,17 +21,18 @@
 		</test-fixture>
 
 		<script>
-			Polymer.CarbonI18nBehaviorLocales.add('simple-i18n', 'en', {
-				simple: 'Hello World',
-				with_placeholder: '{0} members',
-				with_multiple_placeholder: 'My name is {0} and I am {1} years old.'
-			});
-
 			suite('<carbon-i18n-behavior>', function() {
 				suite('basic behavior', function() {
 					var element;
 
 					setup(function() {
+						// Wait until the behavior is initialized
+						Polymer.CarbonI18nBehaviorLocales.add('simple-i18n', 'en', {
+							simple: 'Hello World',
+							with_placeholder: '{0} members',
+							with_multiple_placeholder: 'My name is {0} and I am {1} years old.'
+						});
+
 						element = fixture('TrivialElement');
 					});
 
