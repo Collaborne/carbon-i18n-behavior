@@ -9,18 +9,24 @@
 		<script src="../../web-component-tester/browser.js"></script>
 		<script src="../../test-fixture/test-fixture-mocha.js"></script>
 
-		<link rel="import" href="../carbon-i18n-behavior.html">
+		<link rel="import" href="simple-i18n.html">
 		<link rel="import" href="../../test-fixture/test-fixture.html">
 	</head>
 	<body>
 
 		<test-fixture id="TrivialElement">
 			<template>
-				<carbon-i18n-behavior></carbon-i18n-behavior>
+				<simple-i18n></simple-i18n>
 			</template>
 		</test-fixture>
 
 		<script>
+			Polymer.CarbonI18nBehaviorLocales.add('simple-i18n', 'en', {
+				simple: 'Hello World',
+				with_placeholder: '{0} members',
+				with_multiple_placeholder: 'My name is {0} and I am {1} years old.'
+			});
+
 			suite('<carbon-i18n-behavior>', function() {
 				suite('basic behavior', function() {
 					var element;
@@ -29,7 +35,14 @@
 						element = fixture('TrivialElement');
 					});
 
-					test('Travis requires one test (that always passes)', function() {
+					test('provides localized value', function() {
+						expect(element.i18n.simple).to.be.equals('Hello World');
+					});
+					test('replaces placeholder', function() {
+						expect(element.i18nFormat(element.i18n, 'with_placeholder', 5)).to.be.equals('5 members');
+					});
+					test('replaces multiple placeholder', function() {
+						expect(element.i18nFormat(element.i18n, 'with_multiple_placeholder', 'Joe', 40)).to.be.equals('My name is Joe and I am 40 years old.');
 					});
 				});
 			});
