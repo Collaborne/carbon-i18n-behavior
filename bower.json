@@ -15,7 +15,11 @@
   "license": "Apache 2",
   "homepage": "https://github.com/collaborne/carbon-i18n-behavior",
   "ignore": [
-    "**/.*"
+    "**/.*",
+    "gpages_build.sh",
+    "index.html",
+    "demo/",
+    "test/"
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.0.0"
