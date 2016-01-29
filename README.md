@@ -1,5 +1,7 @@
 _[Demo and API Docs](http://collaborne.github.io/carbon-i18n-behavior)_
 
+_[Blog post explaining the behavior](https://medium.com/collaborne-engineering/localize-polymer-applications-216e8bc90e1a)_
+
 
 carbon-i18n-behavior [![Bower version](https://badge.fury.io/bo/carbon-i18n-behavior.svg)](http://badge.fury.io/bo/carbon-i18n-behavior) [![Travis state](https://travis-ci.org/Collaborne/carbon-i18n-behavior.svg?branch=master)](https://travis-ci.org/Collaborne/carbon-i18n-behavior)
 =========
@@ -9,6 +11,8 @@ carbon-i18n-behavior [![Bower version](https://badge.fury.io/bo/carbon-i18n-beha
 To install the element:
 
 `bower install carbon-i18n-behavior`
+
+Find here more information on _[generating the requires JS files](https://medium.com/collaborne-engineering/localize-polymer-applications-with-a-translation-agency-b3291b574c85)_
 
 ## License
 
