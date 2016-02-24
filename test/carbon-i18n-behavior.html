@@ -46,6 +46,63 @@
 						expect(element.i18nFormat(element.i18n, 'with_multiple_placeholder', 'Joe', 40)).to.be.equals('My name is Joe and I am 40 years old.');
 					});
 				});
+
+				suite('locale fallback', function() {
+					var element;
+
+					setup(function() {
+						// Wait until the behavior is initialized
+						Polymer.CarbonI18nBehaviorLocales.add('simple-i18n', 'en', {
+							selected: 'en',
+						});
+						Polymer.CarbonI18nBehaviorLocales.add('simple-i18n', 'fr', {
+							selected: 'fr',
+						});
+						Polymer.CarbonI18nBehaviorLocales.add('simple-i18n', 'fr-CA', {
+							selected: 'fr-CA',
+						});
+
+						element = fixture('TrivialElement');
+					});
+
+					test('uses most specific locale', function() {
+						element.locale = 'fr-CA';
+						expect(element.i18n.selected).to.be.equal('fr-CA');
+					});
+
+					test('falls back to less specific locale', function() {
+						element.locale = 'fr-BE';
+						expect(element.i18n.selected).to.be.equal('fr');
+					});
+
+					test('uses fallback locale', function() {
+						element.locale = 'de-DE';
+						expect(element.i18n.selected).to.be.equal('en');
+					});
+				});
+
+				suite('default locale', function() {
+					test('uses navigator.language', function() {
+						navigator.__defineGetter__('language', function(){
+							return 'fr';
+						});
+
+						element = fixture('TrivialElement');
+						expect(element.locale).to.be.equal('fr');
+					});
+
+					test('uses navigator.browserLanguage', function() {
+						navigator.__defineGetter__('language', function(){
+							return undefined;
+						});
+						navigator.__defineGetter__('userLanguage', function(){
+							return 'fr';
+						});
+
+						element = fixture('TrivialElement');
+						expect(element.locale).to.be.equal('fr');
+					});
+				});
 			});
 		</script>
 

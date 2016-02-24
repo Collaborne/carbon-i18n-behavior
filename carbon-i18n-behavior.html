@@ -34,7 +34,11 @@
 			// FIXME: Yes, this component is mixing up languages and locales!
 			locale: {
 				type: String,
-				value: navigator.language,
+				value: function() {
+					// Work out a reasonable default
+					// See http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/ for a discussion
+					return navigator.language || navigator.userLanguage || navigator.browserLanguage || navigator.systemLanguage;
+				},
 				observer: '_onChangedLocale'
 			},
 
@@ -71,9 +75,21 @@
 
 		_onChangedLocale: function(locale) {
 			var elementLocales = Polymer.CarbonI18nBehaviorLocales[this.localName];
-			// Fall back to 'en' if we don't have translations for the specific locale.
-			// TODO: We should at least try to check for parents, for example 'en-CA' might not be available, but 'en' would be.
-			this.i18n = elementLocales[locale] || elementLocales[this.fallbackLocale];
+			// Try to find a suitable locale for which we have data.
+			var result = undefined;
+			while (locale) {
+				result = elementLocales[locale];
+				if (result) {
+					break;
+				} else {
+					locale = locale.substring(0, locale.lastIndexOf('-'));
+				}
+			}
+
+			if (!result) {
+				result = elementLocales[this.fallbackLocale];
+			}
+			this.i18n = result;
 		},
 
 		/**
