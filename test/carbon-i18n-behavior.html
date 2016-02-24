@@ -79,6 +79,11 @@
 						element.locale = 'de-DE';
 						expect(element.i18n.selected).to.be.equal('en');
 					});
+
+					test('uses case-insensitive matching', function() {
+						element.locale = 'fr-ca';
+						expect(element.i18n.selected).to.be.equal('fr-CA');
+					});
 				});
 
 				suite('default locale', function() {

@@ -14,7 +14,7 @@
 		 */
 		add: function(localName, locale, translations) {
 			this[localName] = this[localName] || {};
-			this[localName][locale] = translations;
+			this[localName][locale.toLowerCase()] = translations;
 		}
 	};
 
@@ -78,7 +78,7 @@
 			// Try to find a suitable locale for which we have data.
 			var result = undefined;
 			while (locale) {
-				result = elementLocales[locale];
+				result = elementLocales[locale.toLowerCase()];
 				if (result) {
 					break;
 				} else {
@@ -87,7 +87,7 @@
 			}
 
 			if (!result) {
-				result = elementLocales[this.fallbackLocale];
+				result = elementLocales[this.fallbackLocale.toLowerCase()];
 			}
 			this.i18n = result;
 		},
