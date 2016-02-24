@@ -26,10 +26,26 @@
 	 */
 	Polymer.CarbonI18nBehavior = {
 		properties: {
+			/**
+			 * The currently selected locale.
+			 *
+			 * The default value is the language of the browser (`navigator.language`).
+			 */
+			// FIXME: Yes, this component is mixing up languages and locales!
 			locale: {
 				type: String,
-				value: 'en',
+				value: navigator.language,
 				observer: '_onChangedLocale'
+			},
+
+			/**
+			 * The locale to use when a specific element has no translations available in the selected `locale`.
+			 *
+			 * The default value is `en`.
+			 */
+			fallbackLocale: {
+				type: String,
+				value: 'en'
 			},
 
 			/** Exposes all translations */
@@ -54,7 +70,10 @@
 		},
 
 		_onChangedLocale: function(locale) {
-			this.i18n = Polymer.CarbonI18nBehaviorLocales[this.localName][locale];
+			var elementLocales = Polymer.CarbonI18nBehaviorLocales[this.localName];
+			// Fall back to 'en' if we don't have translations for the specific locale.
+			// TODO: We should at least try to check for parents, for example 'en-CA' might not be available, but 'en' would be.
+			this.i18n = elementLocales[locale] || elementLocales[this.fallbackLocale];
 		},
 
 		/**
