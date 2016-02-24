@@ -87,22 +87,27 @@
 				});
 
 				suite('default locale', function() {
+					function setLocale(property, value) {
+						var localeProp = { get: function () { return value; } };
+						try {
+							Object.defineProperty(window.navigator, property, localeProp);
+						} catch (e) {
+							var newNavigator = {};
+							newNavigator[property] = localeProp;
+							window.navigator = Object.create(navigator, newNavigator);
+						}
+					};
+
 					test('uses navigator.language', function() {
-						navigator.__defineGetter__('language', function(){
-							return 'fr';
-						});
+						setLocale('language', 'fr');
 
 						element = fixture('TrivialElement');
 						expect(element.locale).to.be.equal('fr');
 					});
 
 					test('uses navigator.browserLanguage', function() {
-						navigator.__defineGetter__('language', function(){
-							return undefined;
-						});
-						navigator.__defineGetter__('userLanguage', function(){
-							return 'fr';
-						});
+						setLocale('language', undefined);
+						setLocale('userLanguage', 'fr');
 
 						element = fixture('TrivialElement');
 						expect(element.locale).to.be.equal('fr');
