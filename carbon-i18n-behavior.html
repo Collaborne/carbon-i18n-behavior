@@ -39,7 +39,6 @@
 					// See http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/ for a discussion
 					return navigator.language || navigator.userLanguage || navigator.browserLanguage || navigator.systemLanguage;
 				},
-				observer: '_onChangedLocale'
 			},
 
 			/**
@@ -53,12 +52,10 @@
 			},
 
 			/** Exposes all translations */
-			i18n: Object
-		},
-
-		ready: function() {
-			// Trigger initial load
-			this._onChangedLocale(this.locale);
+			i18n: {
+				type: Object,
+				computed: '_computeI18n(locale, fallbackLocale)'
+			}
 		},
 
 		/**
@@ -73,7 +70,7 @@
 			return this._format(i18n[key], args);
 		},
 
-		_onChangedLocale: function(locale) {
+		_computeI18n: function(locale, fallbackLocale) {
 			var elementLocales = Polymer.CarbonI18nBehaviorLocales[this.localName];
 			// Try to find a suitable locale for which we have data.
 			var result = undefined;
@@ -87,9 +84,9 @@
 			}
 
 			if (!result) {
-				result = elementLocales[this.fallbackLocale.toLowerCase()];
+				result = elementLocales[fallbackLocale.toLowerCase()];
 			}
-			this.i18n = result;
+			return result;
 		},
 
 		/**
