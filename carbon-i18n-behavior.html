@@ -18,6 +18,14 @@
 		}
 	};
 
+	// Private shared database of all elements that use CarbonI18nBehavior
+    var carbonI18nBehaviorElements = [];
+
+	// Locale used by all existing i18n elements (required to initialize new elements)
+	// Work out a reasonable default
+	// See http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/ for a discussion
+	var carbonI18nBehaviorLocale = navigator.language || navigator.userLanguage || navigator.browserLanguage || navigator.systemLanguage;
+
 	/**
 	 * Adds internationalization support to an element
 	 *
@@ -35,10 +43,10 @@
 			locale: {
 				type: String,
 				value: function() {
-					// Work out a reasonable default
-					// See http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/ for a discussion
-					return navigator.language || navigator.userLanguage || navigator.browserLanguage || navigator.systemLanguage;
+					// Use current locale used by the other i18n elements
+					return carbonI18nBehaviorLocale;
 				},
+				observer: '_onLocaleChanged'
 			},
 
 			/**
@@ -55,6 +63,16 @@
 			i18n: {
 				type: Object,
 				computed: '_computeI18n(locale, fallbackLocale)'
+			}
+		},
+
+		attached: function() {
+			carbonI18nBehaviorElements.push(this);
+		},
+		detached: function() {
+			var i = carbonI18nBehaviorElements.indexOf(this);
+			if (i >= 0) {
+				carbonI18nBehaviorElements.splice(i, 1);
 			}
 		},
 
@@ -87,6 +105,22 @@
 				result = elementLocales[fallbackLocale.toLowerCase()];
 			}
 			return result;
+		},
+
+		/**
+		 * Inform other elements with the behavior about the changed locale
+		 */
+		_onLocaleChanged: function(locale) {
+			if (!locale) {
+				return;
+			}
+
+			carbonI18nBehaviorLocale = locale;
+			carbonI18nBehaviorElements.forEach(function(el) {
+				if (el.locale !== locale) {
+			    	el.locale = locale;
+				}
+		    });
 		},
 
 		/**
