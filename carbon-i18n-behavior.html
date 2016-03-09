@@ -21,10 +21,9 @@
 	// Private shared database of all elements that use CarbonI18nBehavior
     var carbonI18nBehaviorElements = [];
 
-	// Locale used by all existing i18n elements (required to initialize new elements)
-	// Work out a reasonable default
-	// See http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/ for a discussion
-	var carbonI18nBehaviorLocale = navigator.language || navigator.userLanguage || navigator.browserLanguage || navigator.systemLanguage;
+	// Locale used by existing elements, so that they stay in-sync.
+	// FIXME: This is weird, we probably should have *one* place configuring this locale explicitly, and then distributing it to all attached elements.
+	var carbonI18nBehaviorElementsLocale = null;
 
 	/**
 	 * Adds internationalization support to an element
@@ -39,12 +38,12 @@
 			 *
 			 * The default value is the language of the browser (`navigator.language`).
 			 */
-			// FIXME: Yes, this component is mixing up languages and locales!
 			locale: {
 				type: String,
 				value: function() {
-					// Use current locale used by the other i18n elements
-					return carbonI18nBehaviorLocale;
+					// Work out a reasonable default
+					// See http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/ for a discussion
+					return carbonI18nBehaviorElementsLocale || navigator.language || navigator.userLanguage || navigator.browserLanguage || navigator.systemLanguage;
 				},
 				observer: '_onLocaleChanged'
 			},
@@ -73,6 +72,11 @@
 			var i = carbonI18nBehaviorElements.indexOf(this);
 			if (i >= 0) {
 				carbonI18nBehaviorElements.splice(i, 1);
+			}
+			if (carbonI18nBehaviorElements.length === 0) {
+				// Last one to go, reset the default
+				// XXX: This is mostly for testing the components, re-triggering the default locale selection.
+				carbonI18nBehaviorElementsLocale = null;
 			}
 		},
 
@@ -115,12 +119,15 @@
 				return;
 			}
 
-			carbonI18nBehaviorLocale = locale;
+			// Remember the value for new elements as default
+			carbonI18nBehaviorElementsLocale = locale;
+
+			// Tell all other elements about it.
 			carbonI18nBehaviorElements.forEach(function(el) {
-				if (el.locale !== locale) {
-			    	el.locale = locale;
+				if (el !== this) {
+					el.locale = locale;
 				}
-		    });
+		    }.bind(this));
 		},
 
 		/**
