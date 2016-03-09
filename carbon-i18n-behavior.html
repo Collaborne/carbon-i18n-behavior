@@ -25,6 +25,9 @@
 	// FIXME: This is weird, we probably should have *one* place configuring this locale explicitly, and then distributing it to all attached elements.
 	var carbonI18nBehaviorElementsLocale = null;
 
+	// When true: we're currently mass-updating the locales.
+	var localeChangeInProgress = false;
+
 	/**
 	 * Adds internationalization support to an element
 	 *
@@ -119,15 +122,22 @@
 				return;
 			}
 
-			// Remember the value for new elements as default
-			carbonI18nBehaviorElementsLocale = locale;
+			if (!localeChangeInProgress) {
+				localeChangeInProgress = true;
+				try {
+					// Remember the value for new elements as default
+					carbonI18nBehaviorElementsLocale = locale;
 
-			// Tell all other elements about it.
-			carbonI18nBehaviorElements.forEach(function(el) {
-				if (el !== this) {
-					el.locale = locale;
+					// Tell all other elements about it.
+					carbonI18nBehaviorElements.forEach(function(el) {
+						if (el !== this) {
+							el.locale = locale;
+						}
+					}.bind(this));
+				} finally {
+					localeChangeInProgress = false;
 				}
-		    }.bind(this));
+			}
 		},
 
 		/**
