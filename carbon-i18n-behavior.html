@@ -97,6 +97,10 @@
 
 		_computeI18n: function(locale, fallbackLocale) {
 			var elementLocales = Polymer.CarbonI18nBehaviorLocales[this.localName];
+			if (!elementLocales) {
+				throw new Error('No translations defined for element "' + this.localName + '". Check that you imported ' + this.localName + '.<locale>.js imports.');
+			}
+
 			// Try to find a suitable locale for which we have data.
 			var result = undefined;
 			while (locale) {
