@@ -54,12 +54,15 @@
 						// Wait until the behavior is initialized
 						Polymer.CarbonI18nBehaviorLocales.add('simple-i18n', 'en', {
 							selected: 'en',
+							en_only: 'en',
 						});
 						Polymer.CarbonI18nBehaviorLocales.add('simple-i18n', 'fr', {
 							selected: 'fr',
+							fr_only: 'fr',
 						});
 						Polymer.CarbonI18nBehaviorLocales.add('simple-i18n', 'fr-CA', {
 							selected: 'fr-CA',
+							fr_ca_only: 'fr-CA',
 						});
 
 						element = fixture('TrivialElement');
@@ -83,6 +86,13 @@
 					test('uses case-insensitive matching', function() {
 						element.locale = 'fr-ca';
 						expect(element.i18n.selected).to.be.equal('fr-CA');
+					});
+
+					test('combines all locales', function() {
+						element.locale = 'fr-ca';
+						expect(element.i18n.fr_ca_only).to.be.equal('fr-CA');
+						expect(element.i18n.fr_only).to.be.equal('fr');
+						expect(element.i18n.en_only).to.be.equal('en');
 					});
 				});
 

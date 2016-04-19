@@ -101,21 +101,27 @@
 				throw new Error('No translations defined for element "' + this.localName + '". Check that you imported ' + this.localName + '.<locale>.js imports.');
 			}
 
-			// Try to find a suitable locale for which we have data.
-			var result = undefined;
-			while (locale) {
-				result = elementLocales[locale.toLowerCase()];
-				if (result) {
-					break;
-				} else {
+			/**
+			 * Join strings for the given locale and all "parent" locales.
+			 */
+			function mergeLocales(result, locale) {
+				while (locale) {
+					var maybeAvailableLocales = elementLocales[locale.toLowerCase()];
+					if (result) {
+						// Object.assign modifies the target, so we better merge things into a new empty object
+						result = Object.assign({}, maybeAvailableLocales, result);
+					}
 					locale = locale.substring(0, locale.lastIndexOf('-'));
 				}
-			}
 
-			if (!result) {
-				result = elementLocales[fallbackLocale.toLowerCase()];
-			}
-			return result;
+				return result;
+			};
+
+			// Combine all locales ...
+			var result = mergeLocales({}, locale);
+
+			// ... and now add the fallback locales
+			return mergeLocales(result, fallbackLocale);
 		},
 
 		/**
