@@ -8,8 +8,8 @@
   "keywords": [
     "web-components",
     "polymer",
-    "animation",
-    "slot machine"
+    "localization",
+    "translation"
   ],
   "license": "Apache 2",
   "homepage": "https://github.com/collaborne/carbon-i18n-behavior",
