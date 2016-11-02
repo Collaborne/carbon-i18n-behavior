@@ -37,6 +37,16 @@
 		registerCallback: function(localName, cb) {
 			this[localName] = this[localName] || {};
 			this[localName].callback = cb;
+		},
+
+		/**
+		 * Get all available locales for a given element.
+		 *
+		 * @param {String} localName Name of the element for which the translations are registered
+		 */
+		getAvailableLocales: function(localName) {
+			var locales = this[localName] || {};
+			return [...Object.keys(locales)];
 		}
 	};
 
@@ -79,7 +89,7 @@
 			availableLocales: {
 				type: Array,
 				value: function() {
-					return [...Object.keys(Polymer.CarbonI18nBehaviorLocales[this.localName])];
+					return Polymer.CarbonI18nBehaviorLocales.getAvailableLocales(this.localName);
 				},
 				readOnly: true
 			},
@@ -167,7 +177,7 @@
 		},
 
 		_computeAvailableLocales: function() {
-			return Object.keys(Polymer.CarbonI18nBehaviorLocales[this.localName]);
+			return Polymer.CarbonI18nBehaviorLocales.getAvailableLocales(this.localName);
 		},
 
 		/**
