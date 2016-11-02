@@ -5,6 +5,14 @@
 	var Polymer = Polymer || {};
 	Polymer.CarbonI18nBehaviorLocales = Polymer.CarbonI18nBehaviorLocales || {
 		/**
+		 * This callback is invoked when locales for an element change.
+		 *
+		 * @callback localeCallback
+		 * @param {String} type of the change
+		 * @param {String} locale locale that changed
+		 */
+
+		/**
 		 * Adds the translations for a locale
 		 *
 		 * @param {String} localname Name of the element for which the translations
@@ -15,6 +23,20 @@
 		add: function(localName, locale, translations) {
 			this[localName] = this[localName] || {};
 			this[localName][locale.toLowerCase()] = translations;
+			if (typeof this[localName].callback === 'function') {
+				this[localName].callback('add', locale);
+			}
+		},
+
+		/**
+		 * Register a callback for changes in the locales.
+		 *
+		 * @param {String} localName Name of the element for which the translations are registered
+		 * @param {localeCallback} cb callback to invoke when the locales for the element change
+		 */
+		registerCallback: function(localName, cb) {
+			this[localName] = this[localName] || {};
+			this[localName].callback = cb;
 		}
 	};
 
@@ -52,6 +74,17 @@
 			},
 
 			/**
+			 * All available locales for this element.
+			 */
+			availableLocales: {
+				type: Array,
+				value: function() {
+					return [...Object.keys(Polymer.CarbonI18nBehaviorLocales[this.localName])];
+				},
+				readOnly: true
+			},
+
+			/**
 			 * The locale to use when a specific element has no translations available in the selected `locale`.
 			 *
 			 * The default value is `en`.
@@ -70,6 +103,15 @@
 
 		attached: function() {
 			carbonI18nBehaviorElements.push(this);
+			Polymer.CarbonI18nBehaviorLocales.registerCallback(this.localName, (type, locale) => {
+				switch (type) {
+				case 'add':
+					this.push('availableLocales', locale);
+					break;
+				default:
+					// Unknown change, ignore it.
+				}
+			});
 		},
 		detached: function() {
 			var i = carbonI18nBehaviorElements.indexOf(this);
@@ -122,6 +164,10 @@
 
 			// ... and now add the fallback locales
 			return mergeLocales(result, fallbackLocale);
+		},
+
+		_computeAvailableLocales: function() {
+			return Object.keys(Polymer.CarbonI18nBehaviorLocales[this.localName]);
 		},
 
 		/**
