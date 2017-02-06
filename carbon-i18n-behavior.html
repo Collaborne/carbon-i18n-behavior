@@ -111,7 +111,13 @@
 			/** Exposes all translations */
 			i18n: {
 				type: Object,
-				computed: '_computeI18n(locale, fallbackLocale)'
+				computed: '_computeI18n(locale, fallbackLocale, _fallbackLocaleLoadAttempted)'
+			},
+
+			_fallbackLocaleLoadAttempted: {
+				type: Number,
+				readOnly: true,
+				value: 0
 			}
 		},
 
@@ -151,12 +157,30 @@
 			return this._format(i18n[key], args);
 		},
 
-		_computeI18n: function(locale, fallbackLocale) {
+		_computeI18n: function(locale, fallbackLocale, fallbackLocaleLoadAttempted) {
 			const localName = this.localName;
 
 			const elementLocales = Polymer.CarbonI18nBehaviorLocales.getAvailableLocales(localName);
 			if (elementLocales.length === 0) {
-				throw new Error(`No translations defined for element "${localName}". Check that you imported ${localName}.<locale>.js`);
+				if (fallbackLocaleLoadAttempted !== 0) {
+					throw new Error(`No translations defined for element "${localName}". Check that you imported ${localName}.<locale>.js`);
+				}
+
+				console.log(`Delaying i18n computation for ${localName}`);
+				const fallbackScript = document.createElement('script');
+				fallbackScript.type = 'text/javascript';
+				fallbackScript.onerror = fallbackScript.onload = (error) => {
+					// Delay the property assignment so that the other script is definitely done executing.
+					this.async(() => {
+						this._set_fallbackLocaleLoadAttempted(1);
+					});
+				}
+				fallbackScript.src = this.resolveUrl(`i18n/${localName}.${fallbackLocale}.i18n.js`);
+
+				const head = document.head || document.getElementsByTagName('head')[0];
+				head.appendChild(fallbackScript);
+
+				return;
 			}
 
 			/**
