@@ -45,8 +45,8 @@
 		 * @param {String} localName Name of the element for which the translations are registered
 		 */
 		getAvailableLocales: function(localName) {
-			var locales = this[localName] || {};
-			return [...Object.keys(locales)];
+			const locales = this[localName] || {};
+			return [...Object.keys(locales)].filter(key => key !== 'callback');
 		}
 	};
 

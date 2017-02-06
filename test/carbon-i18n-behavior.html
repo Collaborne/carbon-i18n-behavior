@@ -123,6 +123,20 @@
 						expect(element.locale).to.be.equal('fr');
 					});
 				});
+
+				suite('callbacks', function() {
+					var element;
+
+					setup(function() {
+						element = fixture('TrivialElement');
+					});
+
+					test('callback is not counted as language', function() {
+						const before = Polymer.CarbonI18nBehaviorLocales.getAvailableLocales(element.localName);
+						Polymer.CarbonI18nBehaviorLocales.registerCallback(element.localName, () => {});
+						expect(Polymer.CarbonI18nBehaviorLocales.getAvailableLocales(element.localName)).to.deep.equal(before);
+					});
+				});
 			});
 		</script>
 
