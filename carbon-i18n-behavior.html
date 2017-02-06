@@ -158,11 +158,8 @@
 			 */
 			function mergeLocales(result, locale) {
 				while (locale) {
-					var maybeAvailableLocales = elementLocales[locale.toLowerCase()];
-					if (result) {
-						// Object.assign modifies the target, so we better merge things into a new empty object
-						result = Object.assign({}, maybeAvailableLocales, result);
-					}
+					// Object.assign modifies the target, so we better merge things into a new empty object
+					result = Object.assign({}, elementLocales[locale.toLowerCase()], result);
 					locale = locale.substring(0, locale.lastIndexOf('-'));
 				}
 
