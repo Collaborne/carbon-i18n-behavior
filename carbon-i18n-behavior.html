@@ -51,14 +51,14 @@
 	};
 
 	// Private shared database of all elements that use CarbonI18nBehavior
-	var carbonI18nBehaviorElements = [];
+	const carbonI18nBehaviorElements = [];
 
 	// Locale used by existing elements, so that they stay in-sync.
 	// FIXME: This is weird, we probably should have *one* place configuring this locale explicitly, and then distributing it to all attached elements.
-	var carbonI18nBehaviorElementsLocale = null;
+	let carbonI18nBehaviorElementsLocale = null;
 
 	// When true: we're currently mass-updating the locales.
-	var localeChangeInProgress = false;
+	let localeChangeInProgress = false;
 
 	/**
 	 * Adds internationalization support to an element
@@ -124,7 +124,7 @@
 			});
 		},
 		detached: function() {
-			var i = carbonI18nBehaviorElements.indexOf(this);
+			const i = carbonI18nBehaviorElements.indexOf(this);
 			if (i >= 0) {
 				carbonI18nBehaviorElements.splice(i, 1);
 			}
@@ -143,14 +143,14 @@
 		 * @param {String} key Key under which the translation is stored
 		 */
 		i18nFormat: function(i18n, key) {
-			var args = Array.prototype.slice.call(arguments, 2);
+			const args = Array.prototype.slice.call(arguments, 2);
 			return this._format(i18n[key], args);
 		},
 
 		_computeI18n: function(locale, fallbackLocale) {
-			var elementLocales = Polymer.CarbonI18nBehaviorLocales[this.localName];
+			const elementLocales = Polymer.CarbonI18nBehaviorLocales[this.localName];
 			if (!elementLocales) {
-				throw new Error('No translations defined for element "' + this.localName + '". Check that you imported ' + this.localName + '.<locale>.js imports.');
+				throw new Error(`No translations defined for element "${this.localName}". Check that you imported ${this.localName}.<locale>.js.`);
 			}
 
 			/**
@@ -167,7 +167,7 @@
 			};
 
 			// Combine all locales ...
-			var result = mergeLocales({}, locale);
+			const result = mergeLocales({}, locale);
 
 			// ... and now add the fallback locales
 			return mergeLocales(result, fallbackLocale);
