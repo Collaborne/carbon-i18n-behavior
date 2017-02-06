@@ -47,6 +47,10 @@
 		getAvailableLocales: function(localName) {
 			const locales = this[localName] || {};
 			return [...Object.keys(locales)].filter(key => key !== 'callback');
+		},
+
+		get: function(localName, locale) {
+			return (this[localName] || {})[locale.toLowerCase()];
 		}
 	};
 
@@ -148,9 +152,11 @@
 		},
 
 		_computeI18n: function(locale, fallbackLocale) {
-			const elementLocales = Polymer.CarbonI18nBehaviorLocales[this.localName];
-			if (!elementLocales) {
-				throw new Error(`No translations defined for element "${this.localName}". Check that you imported ${this.localName}.<locale>.js.`);
+			const localName = this.localName;
+
+			const elementLocales = Polymer.CarbonI18nBehaviorLocales.getAvailableLocales(localName);
+			if (elementLocales.length === 0) {
+				throw new Error(`No translations defined for element "${localName}". Check that you imported ${localName}.<locale>.js`);
 			}
 
 			/**
@@ -158,8 +164,9 @@
 			 */
 			function mergeLocales(result, locale) {
 				while (locale) {
+					const values = Polymer.CarbonI18nBehaviorLocales.get(localName, locale);
 					// Object.assign modifies the target, so we better merge things into a new empty object
-					result = Object.assign({}, elementLocales[locale.toLowerCase()], result);
+					result = Object.assign({}, values, result);
 					locale = locale.substring(0, locale.lastIndexOf('-'));
 				}
 
