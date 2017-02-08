@@ -166,7 +166,6 @@
 					throw new Error(`No translations defined for element "${localName}". Check that you imported ${localName}.<locale>.js`);
 				}
 
-				console.log(`Delaying i18n computation for ${localName}`);
 				const fallbackScript = document.createElement('script');
 				fallbackScript.type = 'text/javascript';
 				fallbackScript.onerror = fallbackScript.onload = (error) => {
