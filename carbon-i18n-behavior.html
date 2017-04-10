@@ -154,7 +154,7 @@
 		 */
 		i18nFormat: function(i18n, key) {
 			const args = Array.prototype.slice.call(arguments, 2);
-			return this._format(i18n[key], args);
+			return this._format(i18n[key] || '', args);
 		},
 
 		_computeI18n: function(locale, fallbackLocale, fallbackLocaleLoadAttempted) {
