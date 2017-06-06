@@ -3,7 +3,7 @@
   "authors": [
     "collaborne"
   ],
-  "description": "Polymer 1.x behavior to add internationalization support",
+  "description": "Polymer 2.x behavior to add internationalization support",
   "main": "carbon-i18n-behavior.html",
   "keywords": [
     "web-components",
