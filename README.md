@@ -6,7 +6,7 @@ _[Blog post explaining the behavior](https://medium.com/collaborne-engineering/l
 carbon-i18n-behavior [![Bower version](https://badge.fury.io/bo/carbon-i18n-behavior.svg)](http://badge.fury.io/bo/carbon-i18n-behavior) [![Travis state](https://travis-ci.org/Collaborne/carbon-i18n-behavior.svg?branch=master)](https://travis-ci.org/Collaborne/carbon-i18n-behavior)
 =========
 
-`carbon-i18n-behavior` adds internationalization support to Polymer elements. The web component is built with [Polymer 1.x](https://www.polymer-project.org).
+`carbon-i18n-behavior` adds internationalization support to Polymer elements. The web component is built with [Polymer 2.x](https://www.polymer-project.org).
 
 To install the element:
 
