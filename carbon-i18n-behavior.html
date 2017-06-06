@@ -153,6 +153,10 @@
 		 * @param {String} key Key under which the translation is stored
 		 */
 		i18nFormat: function(i18n, key) {
+			if (!i18n) {
+				return null;
+			}
+
 			const args = Array.prototype.slice.call(arguments, 2);
 			return this._format(i18n[key] || '', args);
 		},

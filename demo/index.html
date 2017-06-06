@@ -10,30 +10,31 @@
 	</head>
 
 	<body>
-		<template is="dom-bind">
-			<h2>Control</h2>
-			<paper-radio-group selected="{{locale}}">
-				<paper-radio-button name="en">English</paper-radio-button>
-				<paper-radio-button name="de">German</paper-radio-button>
-			</paper-radio-group>
+		<dom-bind>
+			<template id="app">
+				<h2>Control</h2>
+				<paper-radio-group selected="{{locale}}">
+					<paper-radio-button name="en">English</paper-radio-button>
+					<paper-radio-button name="de">German</paper-radio-button>
+				</paper-radio-group>
 
-			<h2>Element</h2>
-			<div class="vertical-section">
-				<simple-i18n id="primary" locale="[[locale]]"></simple-i18n>
-			</div>
+				<h2>Element</h2>
+				<div class="vertical-section">
+					<simple-i18n id="primary" locale="[[locale]]"></simple-i18n>
+				</div>
 
-			<h2>Propagation of locale changes</h2>
-			This element received locale changes indirectly via changes on another element:<br>
-			&nbsp;
+				<h2>Propagation of locale changes</h2>
+				This element received locale changes indirectly via changes on another element:<br>
+				&nbsp;
 
-			<div class="vertical-section">
-				<simple-i18n id="secondary"></simple-i18n>
-			</div>
-		</template>
+				<div class="vertical-section">
+					<simple-i18n id="secondary"></simple-i18n>
+				</div>
+			</template>
+		</dom-bind>
 
 		<script>
-			var scope = document.querySelector("template[is=dom-bind]");
-			scope.locale = "en";
+			app.locale = "en";
 		</script>
 	</body>
 </html>
