@@ -2,6 +2,9 @@ _[Blog post explaining the behavior](https://medium.com/collaborne-engineering/l
 
 
 carbon-i18n-behavior [![Bower version](https://badge.fury.io/bo/carbon-i18n-behavior.svg)](http://badge.fury.io/bo/carbon-i18n-behavior) [![Travis state](https://travis-ci.org/Collaborne/carbon-i18n-behavior.svg?branch=master)](https://travis-ci.org/Collaborne/carbon-i18n-behavior) [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/Collaborne/carbon-i18n-behavior)
+
+[![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/Collabornecarbon-i18n-behavior)
+[![Stars on vaadin.com/directory](https://img.shields.io/vaadin-directory/star/Collabornecarbon-i18n-behavior.svg)](https://vaadin.com/directory/component/Collabornecarbon-i18n-behavior)
 =========
 
 `carbon-i18n-behavior` adds internationalization support to Polymer elements. The web component is built with [Polymer](https://www.polymer-project.org).
